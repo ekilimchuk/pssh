@@ -19,6 +19,7 @@ type Config struct {
 	Timeout   int
 	Aggregate bool
 }
+
 type std struct {
 	host   string
 	stdout string

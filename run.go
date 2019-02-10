@@ -1,0 +1,49 @@
+package main
+
+import (
+	"./util/client"
+	"./util/resolver"
+	"flag"
+	"fmt"
+	"log"
+	"os"
+)
+
+func runAction() {
+	var (
+		f    = flag.String("f", "", "f is a script file path for xecute remotely.")
+		c    = flag.String("c", "", "c is a command for execute remotely.")
+		p    = flag.Int("p", 1, "p is a number of parallel ssh session.")
+		port = flag.String("P", "22", "P is a server ssh port.")
+		s    = flag.Int("s", 0, "s is a duration of run command or script - smooth ssh session on time.")
+		t    = flag.Int("t", 20, "t is a time (a number) of connection timeout.")
+		l    = flag.Bool("l", false, "l is a line mode without aggregate results.")
+	)
+	flag.CommandLine.Parse(os.Args[2:])
+	command := ""
+	if *f != "" {
+		command = *f
+	}
+	if *c != "" {
+		command = *c
+	}
+	if command == "" || flag.NArg() == 0 {
+		flag.PrintDefaults()
+		os.Exit(1)
+	}
+	hosts := resolver.GetHosts(flag.Args())
+	config := client.Config{
+		Hosts:     hosts,
+		Port:      *port,
+		Command:   command,
+		Parallel:  *p,
+		Smooth:    *s,
+		Timeout:   *t,
+		Aggregate: !*l,
+	}
+	ssh := client.New(&config)
+	fmt.Println("Run")
+	if err := ssh.Run(); err != nil {
+		log.Fatal(err)
+	}
+}

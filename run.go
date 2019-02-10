@@ -5,7 +5,6 @@ import (
 	"./util/resolver"
 	"flag"
 	"fmt"
-	"log"
 	"os"
 )
 
@@ -16,7 +15,7 @@ func runAction() {
 		p    = flag.Int("p", 1, "p is a number of parallel ssh session.")
 		port = flag.String("P", "22", "P is a server ssh port.")
 		s    = flag.Int("s", 0, "s is a duration of run command or script - smooth ssh session on time.")
-		t    = flag.Int("t", 20, "t is a time (a number) of connection timeout.")
+		t    = flag.Duration("t", 20000, "t is a time (a number) of connection timeout.")
 		l    = flag.Bool("l", false, "l is a line mode without aggregate results.")
 	)
 	flag.CommandLine.Parse(os.Args[2:])
@@ -43,7 +42,5 @@ func runAction() {
 	}
 	ssh := client.New(&config)
 	fmt.Println("Run")
-	if err := ssh.Run(); err != nil {
-		log.Fatal(err)
-	}
+	ssh.Run()
 }

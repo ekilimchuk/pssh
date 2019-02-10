@@ -6,7 +6,7 @@ import (
 )
 
 func showUsage() {
-	fmt.Println("Usage: ./ycssh <run|list> -h")
+	fmt.Println("Usage: ./pssh <run|list> -h")
 }
 
 func main() {

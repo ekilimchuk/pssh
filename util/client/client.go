@@ -7,6 +7,7 @@ import (
 	"golang.org/x/crypto/ssh/agent"
 	"net"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -93,7 +94,13 @@ func (c *Config) Run() {
 	for i := 0; i < len(c.Hosts); i++ {
 		r := <-results
 		uniqErr[r.err]++
-		fmt.Printf("%v\n", r)
+		fmt.Printf("%s:\n", r.host)
+		if r.stdout != "" {
+			fmt.Printf("%s\n", strings.TrimSpace(r.stdout))
+		}
+		if r.stderr != "" {
+			fmt.Fprintf(os.Stderr, "%s\n", strings.TrimSpace(r.stderr))
+		}
 	}
 	fmt.Printf("%v\n", uniqErr)
 }

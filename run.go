@@ -30,7 +30,11 @@ func runAction() {
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
-	hosts := resolver.GetHosts(flag.Args())
+	hosts, err := resolver.GetHosts(flag.Args())
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err)
+		os.Exit(1)
+	}
 	config := client.Config{
 		Hosts:     hosts,
 		Port:      *port,

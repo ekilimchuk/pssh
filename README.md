@@ -15,5 +15,5 @@ $ ./pssh -h
 ### Running
 ```
 $ ssh-add # running once.
-$ ./pssh run -P 2222 -c uptime 127.0.0.1 127.0.0.1
+$ ./pssh run -P 2222 uptime 127.0.0.1 127.0.0.1
 ```

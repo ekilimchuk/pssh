@@ -1,9 +1,9 @@
 package local
 
 import (
-	"path/filepath"
-	"os"
 	"bufio"
+	"os"
+	"path/filepath"
 )
 
 func GetHostFromLocalFile(name string) (result []string, err error) {
